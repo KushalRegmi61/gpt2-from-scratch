@@ -48,7 +48,7 @@ Planned future extensions:
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/<your-username>/building-llm-from-scratch.git
+git clone https://github.com/kushalregmi61/building-llm-from-scratch.git
 cd building-llm-from-scratch
 pip install -r requirements.txt
 ```
