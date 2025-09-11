@@ -8,10 +8,15 @@ LLMs are the backbone of today’s generative AI systems, enabling applications 
 
 ## Features Implemented
 
-* **Tokenizer**: Custom tokenizer with support for special tokens (`<|endoftext|>`, `<unk>`) and token-to-ID mapping.
-* **Byte Pair Encoding (BPE)**: Subword tokenization algorithm implemented from scratch.
-* **Data Handling**: Creation of input–target pairs using PyTorch `Dataset` and `DataLoader`; includes context size, stride, and batching.
-* **Embeddings**: Token embeddings and absolute positional embeddings, combined to form input representations.
+* **Tokenizer**: Custom tokenizer with support for special tokens (`<|endoftext|>`, `<unk>`) and token-to-ID mapping.  
+* **Byte Pair Encoding (BPE)**: Subword tokenization algorithm implemented from scratch.  
+* **Data Handling**: Creation of input–target pairs using PyTorch `Dataset` and `DataLoader`; includes context size, stride, and batching.  
+* **Embeddings**: Token embeddings and absolute positional embeddings, combined to form input representations.  
+* **Attention Mechanisms**:  
+  - Scaled Dot-Product Attention (mathematical + PyTorch implementation)  
+  - Self-Attention (trainable Q, K, V matrices)  
+  - Causal Attention with autoregressive masking  
+  - Multi-Head Attention with projection and reshaping logic  
 
 ## Repository Structure
 
@@ -26,13 +31,9 @@ notebooks/
 
 ## Roadmap
 
-Planned future extensions:
-
-* Relative positional embeddings
-* Attention mechanism
 * Transformer encoder/decoder blocks
 * Training toy LLMs on small datasets
-* Finetuning for downstream tasks
+* Finetuning for downstream tasks 
 
 ## Getting Started
 
