@@ -46,9 +46,11 @@ six==1.17.0
 stack-data==0.6.3
 sympy==1.14.0
 tiktoken==0.11.0
-torch==2.8.0
+torch==2.8.0+cu126
+torchvision==0.23.0+cu126
 tornado==6.5.2
 traitlets==5.14.3
 typing_extensions==4.14.1
 urllib3==2.5.0
 wcwidth==0.2.13
+wheel==0.45.1
