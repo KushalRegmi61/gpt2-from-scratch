@@ -1,6 +1,10 @@
 official-notebooks/
 notes-ss/
 learning-notebooks/
+gpt2/
+*.pth
+*.pdf
+.gitignore
 
 
 
