@@ -1,10 +1,29 @@
-# Building the LLM from Scratch
+# Building a GPT-2 124M LLM from Scratch
 
 ## Overview
 
-This repository provides a step-by-step implementation of the fundamental components that power Large Language Models (LLMs). The goal is to build each piece from scratch tokenization, embeddings, data pipelines, attention, and transformers  to gain a practical, bottom-up understanding of how modern LLMs work.
+This repository provides a **step-by-step implementation of a GPT-2 124M model from scratch in PyTorch**. The model configuration is:
 
-LLMs are the backbone of today’s generative AI systems, enabling applications like chatbots, translation, summarization, and more. By reconstructing their components in code, this project bridges theory and practice for learners and practitioners.
+* Vocabulary size: 50,257  
+* Context length: 1,024 tokens  
+* Embedding dimension: 768  
+* Number of attention heads: 12  
+* Number of transformer layers: 12  
+* Dropout rate: 0.1  
+* Query-Key-Value bias: False  
+
+The project reconstructs all fundamental components—tokenization, embeddings, attention mechanisms, feedforward networks, residual connections, transformer blocks, and the training loop—to gain a **deep, practical understanding of GPT-style LLMs**.
+
+GPT-2 124M is a fully functional, manageable autoregressive transformer model. By building it from scratch, this project demonstrates **how embeddings, attention, normalization, and residuals interact** to generate coherent text.  
+
+In addition to building the model, I plan to:
+
+* **Fine-tune the model for classification tasks**, e.g., sentiment analysis, topic classification, or grievance categorization.  
+* **Perform instruction fine-tuning** using PEFT (Parameter-Efficient Fine-Tuning) techniques to adapt the model for instruction-following or task-specific behavior without full model retraining.  
+
+This workflow bridges **foundational model engineering** with **practical downstream adaptation**, giving insight into both how LLMs are constructed and how they are specialized for real-world tasks.
+
+---
 
 ## Features Implemented
 
