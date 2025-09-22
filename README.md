@@ -9,14 +9,24 @@ LLMs are the backbone of today’s generative AI systems, enabling applications 
 ## Features Implemented
 
 * **Tokenizer**: Custom tokenizer with support for special tokens (`<|endoftext|>`, `<unk>`) and token-to-ID mapping.  
-* **Byte Pair Encoding (BPE)**: Subword tokenization algorithm implemented from scratch.  
-* **Data Handling**: Creation of input–target pairs using PyTorch `Dataset` and `DataLoader`; includes context size, stride, and batching.  
-* **Embeddings**: Token embeddings and absolute positional embeddings, combined to form input representations.  
+* **Byte Pair Encoding (BPE)**: Subword tokenization implemented from scratch.  
+* **Data Handling**: Input–target pair creation using PyTorch `Dataset` and `DataLoader`, including context size, stride, and batching.  
+* **Embeddings**: Token embeddings and absolute positional embeddings combined for input representation.  
 * **Attention Mechanisms**:  
   - Scaled Dot-Product Attention (mathematical + PyTorch implementation)  
-  - Self-Attention (trainable Q, K, V matrices)  
-  - Causal Attention with autoregressive masking  
+  - Self-Attention with trainable Q, K, V matrices  
+  - Causal Attention for autoregressive modeling  
   - Multi-Head Attention with projection and reshaping logic  
+* **FeedForward Network**: Expansion–compression MLP with GELU activation.  
+* **Layer Normalization**: Implemented from scratch for stable training.  
+* **Residual (Shortcut) Connections**: Added for gradient flow across deep transformer stacks.  
+* **Transformer Blocks**: Complete blocks combining attention, feedforward, normalization, and residuals.  
+* **GPT-2 Architecture**: Stacked 12 transformer layers with uniform embedding/output dimensions.  
+* **Weight Tying**: Input embeddings reused in output projection layer to reduce parameters.  
+* **Autoregressive Text Generation**: Softmax-based token selection with multiple decoding strategies (argmax, sampling, top-k, nucleus).  
+* **Training Loop**: End-to-end training with cross-entropy loss, AdamW optimizer, evaluation, and live sample generation.  
+* **Metrics & Insights**: Tracking perplexity, training vs validation loss to monitor overfitting and model generalization.  
+
 
 ## Repository Structure
 
