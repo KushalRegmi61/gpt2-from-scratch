@@ -12,6 +12,8 @@ This repository implements all GPT-2 components from scratch input & positional 
 This project is a **hands-on bridge from foundational LLM engineering to real-world AI applications**.
 
 ---
+![gpt-architecture](figs/others/lec-22-entire_gpt-2_architecture.png)
+---
 
 
 ## **Table of Contents**
@@ -21,10 +23,9 @@ This project is a **hands-on bridge from foundational LLM engineering to real-wo
   * [Tokenization & Embeddings](#1-tokenization--embeddings)
   * [Transformer Block Implementation](#2-transformer-block-implementation)
   * [Attention Mechanisms](#3-attention-mechanisms)
-  * [Autoregressive Text Generation](#4-autoregressive-text-generation)
+  * [Autoregressive Text Generation and Decoding Strategies](#4-autoregressive-text-generation-and-decoding-strategies)
   * [Training Loop & Metrics](#5-training-loop--metrics)
   * [Results & Insights](#results--insights)
-  * [Screenshots / Visuals](#screenshots--visuals)
   * [Key Takeaways](#key-takeaways)
     
 * [Part 2: Fine-Tuning GPT-2 for Text Classification](#part-2-fine-tuning-gpt-2-for-text-classification)
@@ -35,18 +36,16 @@ This project is a **hands-on bridge from foundational LLM engineering to real-wo
   * [Training Configuration](#4-training-configuration)
   * [Evaluation & Performance](#5-evaluation--performance)
   * [Results & Insights](#results--insights-1)
-  * [Screenshots / Visuals](#screenshots--visuals-1)
   * [Key Takeaways](#key-takeaways-1)
     
 * [Part 3: Instruction Fine-Tuning GPT-2 (355M)](#part-3-instruction-fine-tuning-gpt-2-355m)
-
   * [Dataset & Format](#1-dataset--format)
   * [Model & Training](#2-model--training)
   * [Evaluation Strategy](#3-evaluation-strategy)
   * [Practical Considerations](#4-practical-considerations)
-  * [Results & Insights](#results--insights-2)
-  * [Screenshots / Visuals](#screenshots--visuals-2)
-  * [Key Takeaways](#key-takeaways-2)
+  * [Results & Insights](#5-results--insights)
+  * [Key Takeaways](#6-key-takeaways)
+    
 * [Installation](#installation)
 * [Usage](#usage)
     
@@ -58,6 +57,10 @@ This project is a **hands-on bridge from foundational LLM engineering to real-wo
 
 
 
+
+
+
+---
 
 ## **Part 1: GPT-2 From Scratch on Raw Text**
 
@@ -85,50 +88,59 @@ The objective was to recreate GPT-2 from the ground up and train it on `the-verd
 * Verified **tensor dimensions** (B, S, d_model, d_k, d_v) and scaling by √d_k for gradient stability.
 * Generated **context vectors** as dynamic, query-conditioned weighted sums of value vectors.
 
-### 4. Autoregressive Text Generation
+### 4. Autoregressive Text Generation and Decoding Strategies
 
-* Token-by-token text generation using **sampling**, **top-k**, and **top-p** strategies.
-* Iteratively generated sequences to target length with coherent outputs.
+* **Token-by-token generation** using advanced decoding strategies:
+
+  * **Top-k sampling:** selects from the k most probable tokens, adding controlled randomness.
+  * **Temperature scaling:** adjusts probability distribution smoothness; higher temperatures → more randomness, lower → deterministic outputs.
+  * **Combined top-k + temperature:** balances creativity and coherence, improving text diversity while avoiding nonsensical outputs.
+* Iteratively generated sequences to target length with coherent outputs, verifying qualitative text quality.
+
+![Temperature Scalling vs randomness](figs/others/temp-scaling.png)
+
+
+> **FIG: Temperature Scale Value Effect on Randomens of Text Generation** 
 
 ### 5. Training Loop & Metrics
 
 * Optimizer: **AdamW** with learning rate scheduling and gradient clipping.
 * Loss: **Cross-Entropy**, tracked for both training and validation.
-* Perplexity analysis: example `loss = 8.49 → perplexity ≈ 4875`.
+* Perplexity analysis: e.g., `loss = 8.49 → perplexity ≈ 4875`.
 * Observed overfitting on limited data; applied decoding strategies to improve generalization.
 
 ### **Results & Insights**
 
 * Fully functional GPT-2 capable of generating coherent text sequences.
-* Attention mechanisms and Transformer internals validated end-to-end.
-* Developed strong mastery of embeddings, attention, residuals, and stacked architectures.
+* Attention mechanisms, transformer internals, and decoding strategies validated end-to-end.
+* Developed strong mastery of embeddings, attention, residuals, stacked architectures, and text sampling techniques.
 
-### **Screenshots / Visuals**
 
-```markdown
-![Training Loss Curve](path/to/gpt2_training_loss.png)
-![Sample Generated Text](path/to/gpt2_generated_text.png)
-![Attention Map Visualization](path/to/attention_visualization.png)
-![Transformer Architecture Diagram](path/to/transformer_architecture.png)
-```
+![train-val-loss](figs/others/raw-training-loss.png)
+> Fig: Train and Validation loss vs epoch vs token_seen
 
 ### **Key Takeaways**
 
-* Built complete GPT-2 pipeline: raw text → tokenization → embeddings → transformer blocks → autoregressive generation.
+* Built complete GPT-2 pipeline: raw text → tokenization → embeddings → transformer blocks → autoregressive generation with controlled decoding.
 * Hands-on implementation reinforces theoretical concepts and prepares model for downstream tasks.
-* Demonstrates top-tier skills in PyTorch, transformer internals, and scalable LLM design.
-
-
+* Demonstrates **top-tier skills in PyTorch, transformer internals, and advanced LLM generation techniques**.
 
 ---
+
+
 
 ## **Part 2: Fine-Tuning GPT-2 for Text Classification**
 
 **Objective:**
 The objective was to transform GPT-2 (124M) from a generative model into a **binary text classifier** capable of predicting spam vs. ham emails. This demonstrates LLM versatility for discriminative tasks without training from scratch.
 
+![](figs/classification/lec-33_finetunning-process.png)
+> Fig: Classification Finetunning Workflow
+
+
 
 > **Implementation Highlights:**
+
 
 ### 1. Dataset Preparation
 
@@ -147,6 +159,9 @@ The objective was to transform GPT-2 (124M) from a generative model into a **bin
 * Loaded **pretrained GPT-2 weights** from Part 1.
 * Replaced GPT-2’s 50,257-dim vocabulary projection with a **2-class linear classification head**.
 * **Selective fine-tuning:** froze all layers except the last transformer block and final LayerNorm, preserving pretrained knowledge while adapting to spam detection.
+  
+![Model_architecture](figs/classification/lec-34-llm-clasiffication-finetunning-architecture.png)
+> Fig: Model Architecture for Classification Finetunning
 
 ### 4. Training Configuration
 
@@ -154,27 +169,45 @@ The objective was to transform GPT-2 (124M) from a generative model into a **bin
 * Loss: **Cross-Entropy**.
 * Epochs: 5 with periodic evaluation.
 * Monitored **train/validation accuracy and loss** for convergence and generalization.
+* Training was stable with rapid convergence, minimal overfitting observed.
+
+
 
 ### 5. Evaluation & Performance
 
-* Achieved **97% train/val accuracy** and **95% test accuracy**.
 * Loss dropped sharply, minimal train-val gap → effective transfer learning.
 * Built `classify_review` function for inference: input text → tokenization → padding → logits → predicted label.
-* Observed slight validation > test accuracy, manageable via dropout/weight decay.
+  
+>  **Performance Before vs After Training:**
+
+| Metric               | Before Training | After Training |
+|---------------------|----------------|---------------|
+| Training Accuracy    | 46.25%         | 99.43%        |
+| Validation Accuracy  | 53.75%         | 97.32%        |
+| Test Accuracy        | 50.00%         | 96.67%        |
+
+> **Note:** Slight differences between validation and test accuracy indicate **minimal overfitting**, thanks to selective layer unfreezing, proper padding, and batch handling.
+
+---
 
 ### **Results & Insights**
 
 * Selective unfreezing leverages pretrained features: shallow layers capture grammar/syntax; deep layers learn task-specific semantics.
 * Proper padding and batch engineering stabilize gradient flow and optimize GPU usage.
 * Achieved **production-ready performance** with a moderate-sized (124M) GPT-2 model.
+  
+![](figs/classification/output-example.png)
+> Fig: Sample Output of Finetuned model
+  
+![](figs/classification/train-val-loss.png)
+> FIG: Train-Validation Loss Vs Epochs Vs No to Token Seen
 
-### **Screenshots / Visuals**
+![](figs/classification/train-val-accuracy.png)
+> FIG: Train-Validation accuracy Vs Epochs Vs No to Token Seen
 
-```markdown
-![Training Loss & Accuracy](path/to/classification_training.png)
-![Confusion Matrix](path/to/classification_confusion.png)
-![Sample Predictions](path/to/classification_samples.png)
-```
+![](figs/classification/confusion-matrix.png)
+> FIG: Confusion Matrix
+
 
 ### **Key Takeaways**
 
@@ -187,76 +220,93 @@ The objective was to transform GPT-2 (124M) from a generative model into a **bin
 
 ## **Part 3: Instruction Fine-Tuning GPT-2 (355M)**
 
-**Objective:**
-The objective was to transform GPT-2 (355M) into an **instruction-following assistant** using ~1.1k Alpaca-style instruction→response pairs, adapting the model from generic text generation to task-aligned outputs.
+**Objective:**  
+The goal was to transform GPT-2 (355M) into an **instruction-following assistant** using ~1.1k Alpaca-style instruction→response pairs, adapting the model from generic text generation to **task-aligned outputs**.
 
-> **Implementation Highlights:**
+> **Workflow of Instruction Fine-Tuning**
+
+![](figs/instruction-finetunning/lec-37-instruction-finetunning-workflow.png)
+
+---
 
 ### 1. Dataset & Format
 
-* Alpaca-style JSON dataset: `{instruction, input, output, response}`.
-* Proper **train/validation/test splits**.
-* Dynamic **collation & masking** per batch:
+* Alpaca-style JSON dataset: `{instruction, input, output}` (response is the same as `output` in this setup).  
+* Proper **train/validation/test splits** applied.  
+* Dynamic **collation & masking** per batch:  
+  * Causal LM setup: each token predicts the next token (`inputs[:-1] → targets[1:]`)  
+  * Pad tokens masked with `-100` for loss computation  
+  * Optional **instruction masking** left for future experimentation to avoid overfitting on repeated instructions.
 
-  * Shifted targets (`inputs[:-1] → targets[1:]`)
-  * Pad tokens masked with `-100` for loss computation
-  * Optional instruction masking left for future experimentation.
+---
 
 ### 2. Model & Training
 
-* Full **GPT-2 (355M) model weights updated** (no PEFT).
-* Optimizer: **AdamW**, `lr=5e-5`, `weight_decay=0.1`.
-* Training objective: **next-token prediction** guided by structured instructions.
-* Monitored training and validation loss:
+* Full **GPT-2 (355M) weights updated** (no PEFT).  
+* Optimizer: **AdamW**, `lr=5e-5`, `weight_decay=0.1`.  
+* Training objective: **next-token prediction** guided by structured instructions.  
+* Training and validation loss progression:  
 
-  * Before fine-tuning: Train 4.1967, Val 4.1125
-  * Step ~000100: Train ~0.51, Val ~0.69
-  * After 5 epochs: Train ~0.17, Val ~0.7 (run ≈ 7.77 min)
-* Outputs saved in JSON for downstream automated and human evaluation.
+  | Stage                 | Train Loss | Val Loss | Notes |
+  |-----------------------|------------|----------|-------|
+  | Before fine-tuning    | 4.197      | 4.113    | Pretrained GPT-2 baseline |
+  | Step ~100             | ~0.51      | ~0.69    | Rapid initial collapse (small dataset) |
+  | After 5 epochs        | ~0.17      | ~0.70    | Run time per epoch ≈ 7.77 min |
+
+* Outputs saved in JSON for **downstream automated and human evaluation**.
+
+> Note: The rapid train loss collapse is expected due to the small dataset (~1.1k examples). Validation loss stabilizes around 0.7, suggesting reasonable generalization.
+
+
 
 ### 3. Evaluation Strategy
- Classical metrics (F1, R²) insufficient for free-text instruction outputs.  
- 
-- Techniques used:  
-  • MMLU: It includes many-domain multiple-choice benchmark for knowledge/reasoning. 
-  • Human evaluation: Here, domain experts rate correctness, helpfulness, and safety (gold standard). 
-  • Automated conversational benchmarking: score outputs using a stronger LLM (fast, reproducible, but biased).
-- Practically, used meta-llama/Meta-Llama-3-8B-Instruct: GPT-2 (355M) scored **53.79/100**, providing quantitative insight.
+
+Classical metrics (F1, R²) are insufficient for **free-text instruction outputs**.  
+
+**Techniques used:**  
+* **MMLU:** Multi-domain multiple-choice benchmark for knowledge and reasoning assessment.  
+* **Human evaluation:** Domain experts rate **correctness, helpfulness, and safety** (gold standard).  
+* **Automated conversational benchmarking:** GPT-2 outputs scored using **meta-llama/Meta-Llama-3-8B-Instruct** for fast, reproducible insights (note: can be biased).  
+
+> Result: GPT-2 (355M) scored **53.79/100**, providing quantitative insight into instruction-following performance.
+
 
 
 ### 4. Practical Considerations
 
-* Single-run risks: random seed, shuffling, and hardware nondeterminism affect stability.
-* Multi-seed, multi-checkpoint evaluation recommended.
-* Future directions:
+* Single-run risks: random seed, shuffling, and hardware nondeterminism affect stability.  
+* Recommended: **multi-seed, multi-checkpoint evaluation**.  
+* Future directions:  
+  * **PEFT (LoRA, QLoRA, adapters):** compute-efficient fine-tuning to reduce GPU cost.  
+  * Diversified instructions, adversarial prompts, and curriculum learning.  
+  * Combine meta-LLM automated scoring with human references for **robust evaluation**.
 
-  * **PEFT (LoRA, QLoRA, adapters)** for compute-efficient fine-tuning
-  * Diversified instructions, adversarial prompts, curriculum learning
-  * Combine meta-LLM automated scoring with human references for robust evaluation
 
-### **Results & Insights**
 
-* Instruction finetuning yielded **measurable improvements**:
+### 5. Results & Insights
 
-  * Loss collapse during training
-  * Sensible, aligned outputs
-* Provides a **baseline production-ready instruction-tuned LLM** for downstream applications like chatbots, automated grievance routing, and domain assistants.
+* Instruction fine-tuning produced **measurable improvements**:  
+  * Loss collapse during training  
+  * Sensible, aligned outputs  
+* Provides a **baseline production-ready instruction-tuned LLM** for downstream applications like **chatbots, automated grievance routing, and domain assistants**.
 
-### **Screenshots / Visuals**
+![](figs/instruction-finetunning/sample-output-example.png)  
+> FIG: Sample Output of Instruction Fine-Tuned LLM
 
-```markdown
-![Training Loss Curve](path/to/instruction_training_loss.png)
-![Sample Instruction Outputs](path/to/instruction_output_samples.png)
-![Evaluation Benchmark Results](path/to/instruction_eval_metrics.png)
-```
+![](figs/instruction-finetunning/train-val-loss.png)  
+> FIG: Train-Validation Loss vs Epochs vs Number of Tokens Seen
 
-### **Key Takeaways**
 
-* Instruction fine-tuning transforms a pretrained GPT-2 model into a **task-aligned assistant**.
-* Full fine-tuning demonstrates practical feasibility without massive models.
-* Future experiments with **multi-seed PEFT runs** and richer datasets will improve performance and efficiency.
+
+### 6. Key Takeaways
+
+* Instruction fine-tuning transforms a pretrained GPT-2 model into a **task-aligned assistant**.  
+* Full fine-tuning is feasible **without massive models**.  
+* Future experiments with **multi-seed PEFT runs** and richer datasets will further improve performance and efficiency.
 
 ---
+
+
 
 
 
