@@ -13,6 +13,7 @@ This project is a **hands-on bridge from foundational LLM engineering to real-wo
 
 ---
 ![gpt-architecture](figs/others/gpt-2-architecture.webp)
+> <p style="text-align:center;">FIG: GPT-2 Architecture</p>
 ---
 
 
