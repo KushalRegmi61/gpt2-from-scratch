@@ -12,7 +12,7 @@ This repository implements all GPT-2 components from scratch input & positional 
 This project is a **hands-on bridge from foundational LLM engineering to real-world AI applications**.
 
 ---
-![gpt-architecture](figs/others/lec-22-entire_gpt-2_architecture.png)
+![gpt-architecture](figs/others/gpt-2-architecture.webp)
 ---
 
 
