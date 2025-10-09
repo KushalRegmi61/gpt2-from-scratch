@@ -265,8 +265,6 @@ The goal was to transform GPT-2 (355M) into an **instruction-following assistant
 Classical metrics (F1, R²) are insufficient for **free-text instruction outputs**.  
 
 **Techniques used:**  
-* **MMLU:** Multi-domain multiple-choice benchmark for knowledge and reasoning assessment.  
-* **Human evaluation:** Domain experts rate **correctness, helpfulness, and safety** (gold standard).  
 * **Automated conversational benchmarking:** GPT-2 outputs scored using **meta-llama/Meta-Llama-3-8B-Instruct** for fast, reproducible insights (note: can be biased).  
 
 > Result: GPT-2 (355M) scored **53.79/100**, providing quantitative insight into instruction-following performance.
