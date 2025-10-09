@@ -1,19 +1,28 @@
-# **GPT-2 from Scratch (Small → XL)**
-This repository demonstrates a from-scratch PyTorch implementation of GPT-2, supporting multiple scales: Small (124M), Medium (355M), Large (774M), and XL (1.5B). The project is designed to provide deep, hands-on understanding of transformer-based LLMs while remaining practical for real-world AI applications.
+# **GPT-2 from Scratch: Training and Fine-Tuning in PyTorch**
 
-This repository implements all GPT-2 components from scratch input & positional embeddings, multi-head self-attention, causal masking, feedforward networks, GELU, LayerNorm, residual connections, transformer blocks, and the training loop with autoregressive generation, evaluation, and visualization; tokenization uses standard BPE with special tokens.
+> **What if you could build GPT-2 from scratch and make it to follow your instructions?**
+
+Well, this repository demonstrates a from-scratch PyTorch implementation of GPT-2, supporting multiple scales: Small (124M), Medium (355M), Large (774M), and XL (1.5B). It covers all core GPT-2 components like embeddings, multi-head attention, causal masking, feedforward layers, and training with autoregressive generation.
+
+Beyond training from scratch, it also includes **production-ready fine-tuning pipelines** for:
+
+* **Text Classification:** Converts GPT-2 into a discriminative model (spam, sentiment, grievances) with selective layer freezing and optimized batching for high accuracy.
+* **Instruction Fine-Tuning:** Aligns GPT-2 to follow structured instructions (Alpaca-style) with evaluation via automated metrics and human feedback enabling chatbots and task-oriented assistants.
 
 **Why it matters?**
 
-* **Deep LLM mastery:** It helps to learn how embeddings, attention, and residuals interact to generate coherent text.
-* **Scalable & practical:** This implementation supports multiple GPT-2 sizes and downstream tasks.
-* **Production-ready pipelines:** Fine-tune for **classification** (spam, sentiment, grievances) or **instruction-following** assistants.
+* **Deep LLM mastery:** Learn how embeddings, attention, and residuals interact to generate coherent text.
+* **Scalable & practical:** Supports multiple GPT-2 sizes and downstream tasks.
+* **Production-ready pipelines:** Fine-tune for **classification** or **instruction-following** assistants.
 
 This project is a **hands-on bridge from foundational LLM engineering to real-world AI applications**.
 
 ---
+
 ![gpt-architecture](figs/others/gpt-2-architecture.webp)
-> <p style="text-align:center;">FIG: GPT-2 Architecture</p>
+
+> <p style="text-align:center;">FIG: GPT-2 Architecture</p>  
+
 ---
 
 
@@ -262,7 +271,7 @@ The goal was to transform GPT-2 (355M) into an **instruction-following assistant
 
 ### 3. Evaluation Strategy
 
-Classical metrics (F1, R²) are insufficient for **free-text instruction outputs**.  
+Classical metrics (F1, R²) are insufficient for **free-text instruction outputs** due to their limited ability to capture semantic fidelity and instruction adherence.
 
 **Techniques used:**  
 * **Automated conversational benchmarking:** GPT-2 outputs scored using **meta-llama/Meta-Llama-3-8B-Instruct** for fast, reproducible insights (note: can be biased).  
