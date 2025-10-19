@@ -6,13 +6,14 @@ Well, this repository demonstrates a from-scratch PyTorch implementation of GPT-
 
 Beyond training from scratch, it also includes **production-ready fine-tuning pipelines** for:
 
-* **Text Classification:** Converts GPT-2 into a discriminative model (spam, sentiment, grievances) with selective layer freezing and optimized batching for high accuracy.
-* **Instruction Fine-Tuning:** Aligns GPT-2 to follow structured instructions (Alpaca-style) with evaluation via automated metrics and human feedback enabling chatbots and task-oriented assistants.
+* **Text Classification:** This pipeline converts GPT-2 into a discriminative model (spam, sentiment, grievances) by adding a classification head with selective layer freezing and optimized batching for high accuracy.
+* **Instruction Fine-Tuning:** This pipeline aligns GPT-2 to follow structured instructions (Alpaca-style) with evaluation via automated metrics (i.e using another LLM for evaluation) and human feedback enabling chatbots and task-oriented assistants.
+
 
 **Why it matters?**
 
-* **Deep LLM mastery:** Learn how embeddings, attention, and residuals interact to generate coherent text.
-* **Scalable & practical:** Supports multiple GPT-2 sizes and downstream tasks.
+* **Deep LLM mastery:** It enhanced my learning how embeddings, attention, and residuals interact to generate coherent text.
+* **Scalable & practical:** upports multiple GPT-2 sizes and downstream tasks.
 * **Production-ready pipelines:** Fine-tune for **classification** or **instruction-following** assistants.
 
 This project is a **hands-on bridge from foundational LLM engineering to real-world AI applications**.
@@ -146,6 +147,7 @@ The objective was to transform GPT-2 (124M) from a generative model into a **bin
 
 ![](figs/classification/lec-33_finetunning-process.png)
 > Fig: Classification Finetunning Workflow
+
 
 
 
